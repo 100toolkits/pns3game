@@ -145,17 +145,16 @@
         <div id="screen-earnings" class="absolute inset-0 bg-gradient-to-b from-gray-950 via-purple-950/80 to-black flex flex-col items-center justify-between p-8 z-30 hidden">
             <div class="flex flex-col items-center mt-6">
                 <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-orange-500 glow-text text-center leading-tight">YOUR<br>EARNINGS</h1>
-                <p class="text-gray-400 text-xs mt-2 text-center max-w-xs">Track your collected arcade coins and redeem your points.</p>
+                <p class="text-gray-400 text-xs mt-2 text-center max-w-xs">Track your collected arcade coins and $ rewards.</p>
             </div>
 
             <div class="flex flex-col gap-3 w-full max-w-xs my-auto">
                 <div class="bg-black/40 border border-white/10 rounded-2xl p-4 flex flex-col items-center shadow-lg">
                     <div class="text-xs text-yellow-400 font-bold uppercase tracking-wider mb-2">Collect more, Earn More</div>
-                    <div class="text-lg font-bold text-white mb-1">Coins: <span id="earnings-coins-val" class="text-yellow-300">0</span></div>
-                    <div class="text-sm font-semibold text-gray-300 mb-3">Points: <span id="earnings-points-val" class="text-cyan-400">0</span></div>
-                    <div id="earnings-redeem-msg" class="text-xs text-cyan-300 font-semibold mb-3 text-center leading-relaxed"></div>
-                    <button id="btn-earnings-redeem" class="w-full py-2.5 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 rounded-xl font-semibold text-xs tracking-wider text-cyan-300 uppercase transition-all flex items-center justify-center gap-2">Redeem 500 Points🎁</button>
-                    <button id="btn-claim-reward" class="w-full py-2.5 bg-green-500/20 hover:bg-green-500/30 border border-green-500/40 rounded-xl font-semibold text-xs tracking-wider text-green-300 uppercase transition-all items-center justify-center gap-2 mt-2 hidden">Claim Reward 🚀</button>
+                    <div class="text-base font-bold text-white mb-1 hidden">Coins: <span id="earnings-coins-val" class="text-yellow-300">0</span></div>
+                    <div class="text-base font-bold text-white mb-2">Amount: <span id="earnings-pkr-val" class="text-green-400">0.00</span></div>
+                    <div class="text-[11px] text-red-400 font-medium text-center mb-3">JazzCash, Paypal</div>
+                    <button id="btn-earnings-withdraw" class="w-full py-2.5 bg-black/60 border border-white/30 rounded-xl font-bold text-xs tracking-wider text-white uppercase flex items-center justify-center gap-2 shadow-md">WITHDRAW 🏛</button>
                 </div>
             </div>
 
@@ -164,15 +163,63 @@
             </div>
         </div>
 
+        <!-- WITHDRAWAL FORM MODAL SCREEN -->
+        <div id="screen-withdraw-form" class="absolute inset-0 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-6 z-50 hidden overflow-y-auto">
+            <div class="bg-gray-900 border border-cyan-400/50 rounded-2xl p-5 w-full max-w-xs flex flex-col items-center shadow-2xl glow-box my-auto">
+                <h2 class="text-xl font-black text-cyan-400 glow-text mb-3 text-center">WITHDRAWAL REQUEST</h2>
+                
+                <form id="withdrawalForm" class="w-full flex flex-col gap-3">
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[11px] text-gray-300 font-semibold">Enter your name</label>
+                        <input type="text" id="w-name" required class="bg-black/50 border border-white/20 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400" placeholder="Full Name">
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[11px] text-gray-300 font-semibold">City name</label>
+                        <input type="text" id="w-city" required class="bg-black/50 border border-white/20 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400" placeholder="City">
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[11px] text-gray-300 font-semibold">Payment Method</label>
+                        <select id="w-method" class="bg-black/50 border border-white/20 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400">
+                            <option value="Easypaisa">Easypaisa</option>
+                            <option value="JazzCash">JazzCash</option>
+                            <option value="PayPal">PayPal</option>
+                        </select>
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[11px] text-gray-300 font-semibold">Easypaisa or JazzCash Number</label>
+                        <input type="text" id="w-phone" required class="bg-black/50 border border-white/20 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400" placeholder="03XXXXXXXXX">
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[11px] text-gray-300 font-semibold">Paypal Address (Email) <span class="text-gray-500 font-normal">(Optional)</span></label>
+                        <input type="email" id="w-paypal" class="bg-black/50 border border-white/20 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400" placeholder="email@example.com (Optional)">
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[11px] text-gray-300 font-semibold">Automatic $ Amount</label>
+                        <input type="text" id="w-pkr-display" disabled class="bg-black/70 border border-green-500/40 rounded-xl px-3 py-2 text-xs text-green-400 font-bold">
+                    </div>
+
+                    <div class="flex flex-col gap-2 mt-2">
+                        <button type="submit" id="btn-send-request" class="btn-arcade w-full py-2.5 rounded-xl font-bold text-xs text-black uppercase shadow-lg">Send Request</button>
+                        <button type="button" id="btn-cancel-withdraw" class="w-full py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl font-semibold text-[11px] text-gray-400 uppercase">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <!-- INSTRUCTIONS SCREEN -->
         <div id="screen-instructions" class="absolute inset-0 bg-black/90 backdrop-blur-md flex flex-col justify-between p-6 z-30 hidden">
             <div class="flex flex-col gap-4 mt-4">
                 <h2 class="text-2xl font-black text-cyan-400 glow-text text-center">HOW TO PLAY</h2>
                 <div class="bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-gray-300 space-y-3">
-                    <p><strong class="text-cyan-300">MOVEMENT:</strong> Use the ◀ ▶ buttons or drag horizontally anywhere on screen to move LEFT and RIGHT.</p>
-                    <p><strong class="text-cyan-300">COMBAT:</strong> Your spaceship fires upward automatically. Eliminate enemies and collect power-ups.</p>
-                    <p><strong class="text-cyan-300">HEAVY WEAPON & SHIELD:</strong> Spend coins during gameplay to instantly trigger temporary Heavy Gun firepower or Shields.</p>
-                    <p><strong class="text-cyan-300">BOSSES:</strong> Every 10 waves, a massive Boss ship appears!</p>
+                    <p><strong class="text-cyan-300">MOVEMENT:</strong> Use the ◀ ▶ buttons or drag horizontally anywhere on screen to move LEFT and RIGHT[cite: 1].</p>
+                    <p><strong class="text-cyan-300">COMBAT:</strong> Your spaceship fires upward automatically. Eliminate enemies and collect power-ups[cite: 1].</p>
+                    <p><strong class="text-cyan-300">HEAVY WEAPON & SHIELD:</strong> Spend coins during gameplay to instantly trigger temporary Heavy Gun firepower or Shields[cite: 1].</p>
+                    <p><strong class="text-cyan-300">BOSSES:</strong> Every 10 waves, a massive Boss ship appears[cite: 1]!</p>
                 </div>
             </div>
             <button id="btn-back-menu" class="btn-arcade w-full py-3 rounded-xl font-bold text-black tracking-wider uppercase">Back to Menu</button>
@@ -191,24 +238,22 @@
         <!-- GAME OVER SCREEN -->
         <div id="screen-gameover" class="absolute inset-0 bg-gradient-to-b from-gray-950 via-purple-950/80 to-black flex flex-col items-center justify-between p-8 z-30 hidden">
             <div class="flex flex-col items-center mt-6">
-                <div class="text-xs uppercase tracking-widest text-red-500 font-semibold mb-1">Mission Failed</div>
-                <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-pink-500 to-purple-500 glow-text text-center leading-tight">GAME<br>OVER</h1>
-                <p class="text-gray-400 text-xs mt-2 text-center max-w-xs">Your spaceship was destroyed. Check your earnings or try again!</p>
+                <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-orange-500 glow-text text-center leading-tight">GAME<br>OVER</h1>
+                <p class="text-gray-400 text-xs mt-2 text-center max-w-xs">Your session has ended. Check your earnings below.</p>
             </div>
 
             <div class="flex flex-col gap-3 w-full max-w-xs my-auto">
                 <div class="bg-black/40 border border-white/10 rounded-2xl p-4 flex flex-col items-center shadow-lg">
-                    <div class="text-xs text-yellow-400 font-bold uppercase tracking-wider mb-2">Collect more, Earn more</div>
-                    <div class="text-lg font-bold text-white mb-1">Coins: <span id="go-coins-val" class="text-yellow-300">0</span></div>
-                    <div class="text-sm font-semibold text-gray-300 mb-3">Points: <span id="go-points-val" class="text-cyan-400">0</span></div>
-                    <div id="go-redeem-msg" class="text-xs text-cyan-300 font-semibold mb-3 text-center leading-relaxed"></div>
-                    <button id="btn-go-redeem" class="w-full py-2.5 bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 rounded-xl font-semibold text-xs tracking-wider text-cyan-300 uppercase transition-all flex items-center justify-center gap-2">Redeem 🎁</button>
-                    <button id="btn-go-claim-reward" class="w-full py-2.5 bg-green-500/20 hover:bg-green-500/30 border border-green-500/40 rounded-xl font-semibold text-xs tracking-wider text-green-300 uppercase transition-all items-center justify-center gap-2 mt-2 hidden">Claim Reward 🚀</button>
+                    <div class="text-xs text-yellow-400 font-bold uppercase tracking-wider mb-2">Collect more, Earn More</div>
+                    <div class="text-base font-bold text-white mb-1 hidden">Coins: <span id="go-coins-val" class="text-yellow-300">0</span></div>
+                    <div class="text-base font-bold text-white mb-2">$ Amount: <span id="go-pkr-val" class="text-green-400">0.00</span></div>
+                    <div class="text-[11px] text-red-400 font-medium text-center mb-3">JazzCash, Paypal</div>
+                    <button id="btn-go-withdraw" class="w-full py-2.5 bg-black/60 border border-white/30 rounded-xl font-bold text-xs tracking-wider text-white uppercase flex items-center justify-center gap-2 shadow-md">WITHDRAW 🏛</button>
                 </div>
             </div>
 
             <div class="flex flex-col gap-3 w-full max-w-xs mb-4">
-                <button id="btn-restart-go" class="btn-arcade w-full py-3.5 rounded-xl font-bold text-base text-black tracking-wider shadow-lg uppercase">Play Again!</button>
+                <button id="btn-restart-go" class="btn-arcade w-full py-3.5 rounded-xl font-bold text-base text-black tracking-wider shadow-lg uppercase">Play Again</button>
             </div>
         </div>
 
@@ -223,8 +268,8 @@
         <!-- BOSS DEFEATED AD REWARD DIALOGUE BOX -->
         <div id="screen-boss-ad-dialog" class="absolute inset-0 bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-6 z-50 hidden">
             <div class="bg-gray-900 border border-cyan-400/50 rounded-2xl p-6 w-full max-w-xs flex flex-col items-center shadow-2xl glow-box">
-                <div class="text-yellow-400 font-black text-xl glow-text mb-2 text-center">BOSS DEFEATED!</div>
-                <p class="text-gray-300 text-xs text-center mb-4">Watch an AdMob Rewarded Video Ad to claim your extra bonus reward!</p>
+                <div class="text-yellow-400 font-black text-xl glow-text mb-2 text-center">BOSS DEFEATED![cite: 1]</div>
+                <p class="text-gray-300 text-xs text-center mb-4">Watch an AdMob Rewarded Video Ad to claim your extra bonus reward![cite: 1]</p>
                 <div class="text-yellow-300 font-black text-lg mb-6">+100 Extra Coins 🪙</div>
                 <div class="flex flex-col gap-3 w-full">
                     <button id="btn-watch-boss-ad" class="btn-ad w-full py-3 rounded-xl font-bold text-black uppercase shadow-lg">📺 Watch Rewarded Ad</button>
@@ -235,8 +280,8 @@
 
         <!-- WAVE ANNOUNCEMENT BANNER -->
         <div id="wave-banner" class="absolute top-1/3 left-0 w-full pointer-events-none flex flex-col items-center justify-center opacity-0 transition-all duration-300 z-20">
-            <div id="wave-banner-title" class="text-3xl font-black text-cyan-400 glow-text tracking-widest uppercase">WAVE 1</div>
-            <div id="wave-banner-sub" class="text-sm font-semibold text-white/80 tracking-wider mt-1">GET READY</div>
+            <div id="wave-banner-title" class="text-3xl font-black text-cyan-400 glow-text tracking-widest uppercase">WAVE 1[cite: 1]</div>
+            <div id="wave-banner-sub" class="text-sm font-semibold text-white/80 tracking-wider mt-1">GET READY[cite: 1]</div>
         </div>
 
         <!-- Toast Notification Box -->
@@ -245,13 +290,15 @@
 
     <!-- AdMob Banner Ad Space at the Bottom -->
     <div id="admob-banner-container" class="w-full h-[50px] bg-black/80 border-t border-cyan-500/20 flex items-center justify-center z-20 shrink-0">
-        <span class="text-xs text-cyan-400/60 font-semibold tracking-widest uppercase">Collect more, Earn More</span>
+        <span class="text-xs text-cyan-400/60 font-semibold tracking-widest uppercase">Collect more, Earn More[cite: 1]</span>
     </div>
 </div>
 
 <script>
+    // --- GOOGLE SHEETS WEB APP URL CONFIGURATION ---
+    const GOOGLE_SHEET_WEB_APP_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+
     // --- IMAGE ASSETS CONFIGURATION ---
-    // Replace the URLs below with your own hosted image paths if needed
     const playerImg = new Image();
     playerImg.src = 'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgdy_hbJjL6u1RA1LjWNwVDlelIkPF-EBGBQUfPSLRQVV96oSVCvtkWRjTRGc5MnoZEbBx5cDNo0q8nVkp5DEglecBh6kFOVEvisVxBcZtTonr0_7jsFZiX9iE-NLJ9MbZ5OXczJ_bJWIdvQx2MbEW7OlFmQfNZW7Qtwu4l-PcvFtZ2n3ntpuqis4GEg6kM/s320/player.png';
 
@@ -264,6 +311,10 @@
     let currentAdInterval = null;
     let pendingBossRewardCallback = null;
     let pendingRestartCallback = null;
+
+    function coinsToUSD(coins) {
+        return (coins / 100000).toFixed(4);
+    }
 
     function showInterstitialAdAndRestart(callback) {
         pendingRestartCallback = callback;
@@ -1010,7 +1061,7 @@
                         triggerScreenShake(0.5, 20);
                         spawnParticles(boss.x, boss.y, '#ffaa00', 60, 2);
                         spawnSmokeSpots(boss.x, boss.y, 8);
-                        addFloatingText('BOSS DEFEATED', boss.x, boss.y, '#ffff00');
+                        addFloatingText('BOSS DEFEATED[cite: 1]', boss.x, boss.y, '#ffff00');
                         totalKills++;
                         spawnPowerup(boss.x, boss.y);
                         spawnCoin(boss.x, boss.y, 10);
@@ -1244,64 +1295,21 @@
     }
 
     function updateEarningsUI() {
-        const pointsEarned = totalCoins / 1000;
-        const pointsStr = (Math.floor(pointsEarned * 100) / 100).toFixed(2);
-
         document.getElementById('earnings-coins-val').textContent = totalCoins;
-        document.getElementById('earnings-points-val').textContent = pointsStr;
-        document.getElementById('earnings-redeem-msg').textContent = 'Redeem your points for rewards and power bonuses!';
-
-        document.getElementById('go-coins-val').textContent = totalCoins;
-        document.getElementById('go-points-val').textContent = pointsStr;
-        document.getElementById('go-redeem-msg').textContent = 'Redeem your points for rewards and power bonuses!';
-    }
-
-    function redeemPoints() {
-        const pointsEarned = totalCoins / 1000;
+        document.getElementById('earnings-pkr-val').textContent = "$" + coinsToUSD(totalCoins);
         
-        if (pointsEarned < 500) {
-            showToast("You need at least 500 Points to redeem!");
-            soundSystem.playerHit();
-            return;
-        }
-
-        const tokenNumber = Math.floor(10000000 + Math.random() * 90000000).toString();
-        const coinsDeducted = 500;
-        const pointsDeducted = 500;
-
-        totalCoins -= coinsDeducted;
-        if (totalCoins < 0) totalCoins = 0;
-        updateCoinsUI();
-        updateEarningsUI();
-
-        const msg = `Your Token: ${tokenNumber}`;
-        document.getElementById('earnings-redeem-msg').textContent = msg;
-        document.getElementById('go-redeem-msg').textContent = msg;
-        showToast('🎁 Token Generated Successfully!');
-
-        document.getElementById('btn-claim-reward').classList.remove('hidden');
-        document.getElementById('btn-claim-reward').classList.add('flex');
-        document.getElementById('btn-go-claim-reward').classList.remove('hidden');
-        document.getElementById('btn-go-claim-reward').classList.add('flex');
-
-        const webAppUrl = "https://script.google.com/macros/s/AKfycbxBIvavuHYqoN_YOZyq6dJ6bSqd5pXpApbmkhB6tyEIqaT9BlTtR-r7tDFHcWrOhyit/exec";
-        if (webAppUrl) {
-            fetch(webAppUrl, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({
-                    token: tokenNumber,
-                    points: pointsDeducted,
-                    coins: coinsDeducted
-                })
-            }).then(response => response.json())
-              .then(data => console.log("Google Sheets Sync Success:", data))
-              .catch(err => console.error("Google Sheets Sync Error:", err));
-        }
+        document.getElementById('go-coins-val').textContent = totalCoins;
+        document.getElementById('go-pkr-val').textContent = "$" + coinsToUSD(totalCoins);
     }
 
-    function claimReward() {
-        window.open('https://100toolkits.github.io/NeonStrike45/', '_blank');
+    function handleWithdrawClick() {
+        const currentUSD = parseFloat(coinsToUSD(totalCoins));
+        if (currentUSD < 5.00) {
+            showToast('JazzCash, Paypal');
+        } else {
+            document.getElementById('w-pkr-display').value = "$" + currentUSD.toFixed(2) + ' (' + totalCoins + ' Coins)';
+            document.getElementById('screen-withdraw-form').classList.remove('hidden');
+        }
     }
 
     function gameOver() {
@@ -1320,7 +1328,7 @@
     }
 
     function pauseGame() {
-        gameState = 'PAUSED';
+        gameState = 'PLAYING';
         document.getElementById('screen-pause').classList.remove('hidden');
     }
 
@@ -1431,7 +1439,6 @@
             ctx.restore();
         }
 
-        // --- RENDER ENEMIES WITH IMAGE ---
         for (let en of enemies) {
             ctx.save();
             ctx.translate(en.x, en.y);
@@ -1449,7 +1456,6 @@
             ctx.restore();
         }
 
-        // --- RENDER BOSS WITH IMAGE ---
         if (boss) {
             ctx.save();
             ctx.translate(boss.x, boss.y);
@@ -1488,7 +1494,6 @@
             ctx.restore();
         }
 
-        // --- RENDER PLAYER WITH IMAGE ---
         ctx.save();
         ctx.translate(player.x, player.y);
         ctx.rotate(player.tilt);
@@ -1598,20 +1603,66 @@
             document.getElementById('screen-earnings').classList.add('hidden');
         });
 
-        document.getElementById('btn-earnings-redeem').addEventListener('click', () => {
-            redeemPoints();
+        document.getElementById('btn-earnings-withdraw').addEventListener('click', () => {
+            handleWithdrawClick();
         });
 
-        document.getElementById('btn-go-redeem').addEventListener('click', () => {
-            redeemPoints();
+        document.getElementById('btn-go-withdraw').addEventListener('click', () => {
+            handleWithdrawClick();
         });
 
-        document.getElementById('btn-claim-reward').addEventListener('click', () => {
-            claimReward();
+        document.getElementById('btn-cancel-withdraw').addEventListener('click', () => {
+            document.getElementById('screen-withdraw-form').classList.add('hidden');
         });
 
-        document.getElementById('btn-go-claim-reward').addEventListener('click', () => {
-            claimReward();
+        // Handle Withdrawal Form Submission & Google Sheets Integration
+        document.getElementById('withdrawalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('w-name').value;
+            const city = document.getElementById('w-city').value;
+            const method = document.getElementById('w-method').value;
+            const phone = document.getElementById('w-phone').value;
+            const paypal = document.getElementById('w-paypal').value; // Optional field
+            const usdAmount = coinsToUSD(totalCoins);
+            const coinsSubmitted = totalCoins;
+
+            const submitBtn = document.getElementById('btn-send-request');
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Sending Request...";
+
+            const formData = new URLSearchParams();
+            formData.append('name', name);
+            formData.append('city', city);
+            formData.append('method', method);
+            formData.append('phone', phone);
+            formData.append('paypal', paypal || 'N/A'); // Default to 'N/A' if left blank
+            formData.append('usd', usdAmount);
+            formData.append('coins', coinsSubmitted);
+
+            fetch(GOOGLE_SHEET_WEB_APP_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: formData
+            }).then(() => {
+                totalCoins = 0;
+                sessionCoins = 0;
+                updateCoinsUI();
+                updateEarningsUI();
+
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Send Request";
+                document.getElementById('withdrawalForm').reset();
+                document.getElementById('screen-withdraw-form').classList.add('hidden');
+                document.getElementById('screen-earnings').classList.add('hidden');
+                
+                showToast('Withdrawal request sent successfully!');
+            }).catch(error => {
+                console.error('Error:', error);
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Send Request";
+                showToast('Network error. Please try again.');
+            });
         });
 
         document.getElementById('btn-instructions').addEventListener('click', () => {
