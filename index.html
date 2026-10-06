@@ -308,7 +308,7 @@
     let pendingRestartCallback = null;
 
     function coinsToUSD(coins) {
-        return (coins / 1).toFixed(4);
+        return (coins / 100000).toFixed(4);
     }
 
     function showInterstitialAdAndRestart(callback) {
