@@ -1305,7 +1305,7 @@
     function handleWithdrawClick() {
         const currentUSD = parseFloat(coinsToUSD(totalCoins));
         if (currentUSD < 5.00) {
-            showToast('JazzCash, Paypal');
+            showToast('Minimum $5 required for withdrawal.');
         } else {
             document.getElementById('w-pkr-display').value = "$" + currentUSD.toFixed(2) + ' (' + totalCoins + ' Coins)';
             document.getElementById('screen-withdraw-form').classList.remove('hidden');
