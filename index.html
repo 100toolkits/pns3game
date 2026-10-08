@@ -59,12 +59,76 @@
             transform: scale(0.95);
             filter: brightness(1.2);
         }
+        .btn-coins {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            transition: all 0.1s ease;
+        }
+        .btn-coins:active {
+            transform: scale(0.95);
+            filter: brightness(1.2);
+        }
         ::-webkit-scrollbar {
             width: 4px;
         }
         ::-webkit-scrollbar-thumb {
             background: #00f3ff;
             border-radius: 2px;
+        }
+
+        /* --- SPIN WHEEL STYLES --- */
+        .wheel-container {
+            position: relative;
+            margin: 10px auto 15px;
+            width: 200px;
+            height: 200px;
+        }
+        .wheel {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                #ef4444 0deg 40deg,
+                #3b82f6 40deg 80deg,
+                #ef4444 80deg 120deg,
+                #3b82f6 120deg 160deg,
+                #ef4444 160deg 200deg,
+                #3b82f6 200deg 240deg,
+                #ef4444 240deg 280deg,
+                #3b82f6 280deg 320deg,
+                #10b981 320deg 360deg
+            );
+            border: 4px solid #ffffff;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.6);
+            transition: transform 3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform: rotate(0deg);
+        }
+        .wheel-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: 0 50%;
+            transform: rotate(calc(var(--i) * 40deg - 70deg)) translateX(20px);
+            color: white;
+            font-size: 11px;
+            font-weight: 800;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+            white-space: nowrap;
+            margin-top: -6px; 
+            z-index: 5;
+        }
+        .wheel-pointer {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 20px solid #ffffff;
+            z-index: 10;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
         }
     </style>
 </head>
@@ -232,7 +296,7 @@
 
         <!-- GAME OVER SCREEN -->
         <div id="screen-gameover" class="absolute inset-0 bg-gradient-to-b from-gray-950 via-purple-950/80 to-black flex flex-col items-center justify-between p-8 z-30 hidden">
-            <div class="flex flex-col items-center mt-6">
+            <div class="flex flex-col items-center mt-4">
                 <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-orange-500 glow-text text-center leading-tight">GAME<br>OVER</h1>
                 <p class="text-gray-400 text-xs mt-2 text-center max-w-xs">Your session has ended. Check your earnings below.</p>
             </div>
@@ -247,8 +311,37 @@
                 </div>
             </div>
 
-            <div class="flex flex-col gap-3 w-full max-w-xs mb-4">
+            <div class="flex flex-col gap-2.5 w-full max-w-xs mb-2">
+                <button id="btn-get-extra-coins" class="btn-coins w-full py-3 rounded-xl font-black text-sm text-black tracking-wider shadow-lg uppercase flex items-center justify-center gap-1.5">🪙 GET EXTRA COINS 🎰</button>
                 <button id="btn-restart-go" class="btn-arcade w-full py-3.5 rounded-xl font-bold text-base text-black tracking-wider shadow-lg uppercase">Play Again</button>
+            </div>
+        </div>
+
+        <!-- LUCKY SPIN WHEEL MODAL -->
+        <div id="screen-spin-modal" class="absolute inset-0 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-6 z-50 hidden">
+            <div class="bg-gray-900 border border-cyan-400/50 rounded-2xl p-5 w-full max-w-xs flex flex-col items-center shadow-2xl glow-box relative">
+                <button id="btn-spin-close" class="absolute top-3 right-3 text-white font-bold text-lg w-8 h-8 rounded-full border border-white/30 flex items-center justify-center bg-white/10">✕</button>
+                <div class="text-yellow-400 font-black text-xl glow-text mb-1 text-center">Lucky Spin Wheel</div>
+                <div class="text-gray-300 text-xs text-center mb-2">Watch Ad to Spin & Win Extra Coins!</div>
+
+                <div class="wheel-container">
+                    <div class="wheel-pointer"></div>
+                    <div class="wheel" id="spinWheelInner">
+                        <div class="wheel-text" style="--i:0;" id="slice0">10 🪙</div>
+                        <div class="wheel-text" style="--i:1;" id="slice1">20 🪙</div>
+                        <div class="wheel-text" style="--i:2;" id="slice2">30 🪙</div>
+                        <div class="wheel-text" style="--i:3;" id="slice3">40 🪙</div>
+                        <div class="wheel-text" style="--i:4;" id="slice4">50 🪙</div>
+                        <div class="wheel-text" style="--i:5;" id="slice5">60 🪙</div>
+                        <div class="wheel-text" style="--i:6;" id="slice6">80 🪙</div>
+                        <div class="wheel-text" style="--i:7;" id="slice7">100 🪙</div>
+                        <div class="wheel-text" style="--i:8; color: #ffffff;">Try Again ❌</div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-2 w-full mt-2">
+                    <button id="btn-spin-action" class="btn-ad w-full py-3 rounded-xl font-bold text-black uppercase shadow-lg text-sm">📺 Watch Ad to Spin</button>
+                </div>
             </div>
         </div>
 
@@ -306,6 +399,23 @@
     let currentAdInterval = null;
     let pendingBossRewardCallback = null;
     let pendingRestartCallback = null;
+    let pendingAdCallback = null;
+    let isSpinning = false;
+    let currentSpinRotation = 0;
+    let spinChances = 1;
+    let spinCountdownTimer = null;
+
+    const spinSlices = [
+        { label: "10 🪙", coins: 10 },
+        { label: "20 🪙", coins: 20 },
+        { label: "30 🪙", coins: 30 },
+        { label: "40 🪙", coins: 40 },
+        { label: "50 🪙", coins: 50 },
+        { label: "60 🪙", coins: 60 },
+        { label: "80 🪙", coins: 80 },
+        { label: "100 🪙", coins: 100 },
+        { label: "Try Again ❌", coins: 0 }
+    ];
 
     function coinsToUSD(coins) {
         return (coins / 100000).toFixed(4);
@@ -353,6 +463,58 @@
         }
     }
 
+    function startSpinButtonCountdown(onCompleteCallback) {
+        const btnSpin = document.getElementById('btn-spin-action');
+        let timeLeft = 15;
+        
+        btnSpin.disabled = true;
+        btnSpin.classList.add('opacity-50', 'cursor-not-allowed');
+        btnSpin.textContent = `Wait ${timeLeft}s...`;
+
+        if (spinCountdownTimer) {
+            clearInterval(spinCountdownTimer);
+        }
+
+        spinCountdownTimer = setInterval(() => {
+            timeLeft--;
+            if (timeLeft > 0) {
+                btnSpin.textContent = `Wait ${timeLeft}s...`;
+            } else {
+                clearInterval(spinCountdownTimer);
+                spinCountdownTimer = null;
+                btnSpin.disabled = false;
+                btnSpin.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnSpin.textContent = "📺 Watch Ad to Spin";
+                if (onCompleteCallback) {
+                    onCompleteCallback();
+                }
+            }
+        }, 1000);
+    }
+
+    function triggerAdmobRewardForSpin(callback) {
+        if (spinChances <= 0) {
+            showToast("No spin chances left!");
+            return;
+        }
+
+        startSpinButtonCountdown(() => {
+            pendingAdCallback = callback;
+            document.getElementById('screen-ad-loading').classList.remove('hidden');
+            document.getElementById('ad-timer-text').textContent = "Loading Rewarded Video...";
+
+            if (window.AndroidBridge && typeof window.AndroidBridge.watchRewardedVideoForChances === 'function') {
+                window.AndroidBridge.watchRewardedVideoForChances();
+            } else if (window.AndroidBridge && typeof window.AndroidBridge.showRewardedAd === 'function') {
+                window.AndroidBridge.showRewardedAd();
+            } else {
+                setTimeout(() => {
+                    receiveChancesFromAndroid(100);
+                }, 1500);
+            }
+        });
+    }
+
     function receiveChancesFromAndroid(amount) {
         if (currentAdInterval) {
             clearInterval(currentAdInterval);
@@ -364,6 +526,56 @@
             pendingBossRewardCallback();
             pendingBossRewardCallback = null;
         }
+
+        if (pendingAdCallback) {
+            const cb = pendingAdCallback;
+            pendingAdCallback = null;
+            cb();
+        }
+    }
+
+    function executeLuckySpin() {
+        if (isSpinning || spinChances <= 0) return;
+        isSpinning = true;
+        spinChances--;
+
+        const btnSpin = document.getElementById('btn-spin-action');
+        btnSpin.disabled = true;
+
+        const selectedIndex = Math.floor(Math.random() * spinSlices.length);
+        const sliceAngle = 40;
+        const targetSliceCenter = selectedIndex * sliceAngle + 20;
+
+        const extraRounds = (Math.floor(Math.random() * 3) + 5) * 360;
+        const finalDegree = currentSpinRotation + extraRounds + (360 - (currentSpinRotation % 360)) + (360 - targetSliceCenter);
+        currentSpinRotation = finalDegree;
+
+        const wheelInner = document.getElementById('spinWheelInner');
+        wheelInner.style.transform = `rotate(${finalDegree}deg)`;
+
+        setTimeout(() => {
+            isSpinning = false;
+            
+            if (spinChances <= 0) {
+                btnSpin.disabled = true;
+                btnSpin.textContent = "No Spin Chances Left";
+                btnSpin.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                btnSpin.disabled = false;
+            }
+
+            const prize = spinSlices[selectedIndex];
+            if (prize.coins > 0) {
+                totalCoins += prize.coins;
+                sessionCoins += prize.coins;
+                updateCoinsUI();
+                updateEarningsUI();
+                soundSystem.coinSound();
+                showToast(`🎉 You won ${prize.coins} Extra Coins!`);
+            } else {
+                showToast(`❌ Try Again! Better luck next spin.`);
+            }
+        }, 3200);
     }
 
     class SoundSystem {
@@ -731,6 +943,7 @@
         document.getElementById('screen-pause').classList.add('hidden');
         document.getElementById('screen-boss-ad-dialog').classList.add('hidden');
         document.getElementById('screen-earnings').classList.add('hidden');
+        document.getElementById('screen-spin-modal').classList.add('hidden');
         document.getElementById('hud').classList.remove('hidden');
         document.getElementById('controls-overlay').classList.remove('hidden');
 
@@ -1606,6 +1819,42 @@
             handleWithdrawClick();
         });
 
+        document.getElementById('btn-get-extra-coins').addEventListener('click', () => {
+            spinChances = 1;
+            const btnSpin = document.getElementById('btn-spin-action');
+            if (spinCountdownTimer) {
+                clearInterval(spinCountdownTimer);
+                spinCountdownTimer = null;
+            }
+            btnSpin.disabled = false;
+            btnSpin.textContent = "📺 Watch Ad to Spin";
+            btnSpin.classList.remove('opacity-50', 'cursor-not-allowed');
+            document.getElementById('screen-spin-modal').classList.remove('hidden');
+        });
+
+        document.getElementById('btn-spin-close').addEventListener('click', () => {
+            if (spinCountdownTimer) {
+                clearInterval(spinCountdownTimer);
+                spinCountdownTimer = null;
+            }
+            document.getElementById('screen-spin-modal').classList.add('hidden');
+            document.getElementById('screen-gameover').classList.add('hidden');
+            document.getElementById('screen-pause').classList.add('hidden');
+            document.getElementById('hud').classList.add('hidden');
+            document.getElementById('controls-overlay').classList.add('hidden');
+            document.getElementById('boss-hud').classList.add('hidden');
+            document.getElementById('screen-menu').classList.remove('hidden');
+            gameState = 'MENU';
+            updateCoinsUI();
+            requestAnimationFrame(renderMenuShipPreview);
+        });
+
+        document.getElementById('btn-spin-action').addEventListener('click', () => {
+            triggerAdmobRewardForSpin(() => {
+                executeLuckySpin();
+            });
+        });
+
         document.getElementById('btn-cancel-withdraw').addEventListener('click', () => {
             document.getElementById('screen-withdraw-form').classList.add('hidden');
         });
@@ -1663,7 +1912,7 @@
         });
 
         document.getElementById('btn-back-menu').addEventListener('click', () => {
-            document.getElementById('screen-instructions').classList.add('hidden');
+            document.getElementById('screen-instructions').classList.remove('hidden');
         });
 
         document.getElementById('btn-sound').addEventListener('click', () => {
