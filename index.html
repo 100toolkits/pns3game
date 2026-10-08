@@ -305,7 +305,7 @@
                 <div class="bg-black/40 border border-white/10 rounded-2xl p-4 flex flex-col items-center shadow-lg">
                     <div class="text-xs text-yellow-400 font-bold uppercase tracking-wider mb-2">Collect more, Earn More</div>
                     <div class="text-base font-bold text-white mb-1 hidden">Coins: <span id="go-coins-val" class="text-yellow-300">0</span></div>
-                    <div class="text-base font-bold text-white mb-2">$ Amount: <span id="go-pkr-val" class="text-green-400">0.00</span></div>
+                    <div class="text-base font-bold text-white mb-2">Amount: <span id="go-pkr-val" class="text-green-400">0.00</span></div>
                     <div class="text-[11px] text-red-400 font-medium text-center mb-3">Easypaisa, JazzCash, Paypal (Min $5)</div>
                     <button id="btn-go-withdraw" class="w-full py-2.5 bg-black/60 border border-white/30 rounded-xl font-bold text-xs tracking-wider text-white uppercase flex items-center justify-center gap-2 shadow-md">WITHDRAW 🏛</button>
                 </div>
@@ -465,7 +465,7 @@
 
     function startSpinButtonCountdown(onCompleteCallback) {
         const btnSpin = document.getElementById('btn-spin-action');
-        let timeLeft = 15;
+        let timeLeft = 40;
         
         btnSpin.disabled = true;
         btnSpin.classList.add('opacity-50', 'cursor-not-allowed');
