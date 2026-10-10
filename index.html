@@ -505,7 +505,7 @@
 
     function triggerAdmobRewardForSpin(callback) {
         if (spinChances <= 0) {
-            showToast("No spin chances left!");
+            showToast("Please try again next time!");
             return;
         }
 
@@ -571,7 +571,7 @@
             
             if (spinChances <= 0) {
                 btnSpin.disabled = true;
-                btnSpin.textContent = "No Spin Chances Left";
+                btnSpin.textContent = "Please try again next time";
                 btnSpin.classList.add('opacity-50', 'cursor-not-allowed');
             } else {
                 btnSpin.disabled = false;
