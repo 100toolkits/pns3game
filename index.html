@@ -980,12 +980,22 @@
     function checkJackpotLockConditions() {
         const today = new Date();
         const isFriday = (today.getDay() === 5);
+        const hasEnoughCoins = (totalCoins >= jackpotParticipatingFee);
         const btnParticipate = document.getElementById('btn-participate-now');
         const lockReasonEl = document.getElementById('jp-lock-reason');
 
         let lockReasons = [];
 
-        if (totalCoins < jackpotParticipatingFee) {
+        if (hasEnoughCoins && !isFriday) {
+            isParticipateLocked = false;
+            btnParticipate.disabled = false;
+            btnParticipate.classList.remove('opacity-50', 'cursor-not-allowed');
+            lockReasonEl.innerHTML = "Registration is open for this Lucky Draw before Friday";
+            lockReasonEl.classList.remove('hidden');
+            return;
+        }
+
+        if (!hasEnoughCoins) {
             lockReasons.push(`• Insufficient Coins (Requires ${jackpotParticipatingFee} 🪙)`);
         }
         if (isFriday) {
