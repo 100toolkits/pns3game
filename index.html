@@ -86,9 +86,9 @@
         /* SPIN WHEEL STYLES */
         .wheel-container {
             position: relative;
-            margin: 10px auto 15px;
-            width: 200px;
-            height: 200px;
+            margin: 5px auto 10px;
+            width: 190px;
+            height: 190px;
         }
         .wheel {
             position: relative;
@@ -116,9 +116,9 @@
             top: 50%;
             left: 50%;
             transform-origin: 0 50%;
-            transform: rotate(calc(var(--i) * 40deg - 70deg)) translateX(20px);
+            transform: rotate(calc(var(--i) * 40deg - 70deg)) translateX(18px);
             color: white;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 800;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
             white-space: nowrap;
@@ -301,32 +301,23 @@
             </div>
         </div>
 
-        <!-- GAME OVER SCREEN -->
-        <div id="screen-gameover" class="absolute inset-0 bg-gradient-to-b from-gray-950 via-purple-950/80 to-black flex flex-col items-center justify-between p-8 z-30 hidden">
-            <div class="flex flex-col items-center mt-4">
-                <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-orange-500 glow-text text-center leading-tight">GAME<br>OVER</h1>
-                <p class="text-gray-400 text-xs mt-2 text-center max-w-xs">Your session has ended.</p>
-            </div>
+        <!-- GAME OVER SCREEN WITH INTEGRATED LUCKY SPIN WHEEL & FLOATING CLOSE BUTTON -->
+        <div id="screen-gameover" class="absolute inset-0 bg-gradient-to-b from-gray-950 via-purple-950/80 to-black flex flex-col items-center justify-between p-4 z-30 hidden overflow-y-auto relative">
+            
+            <!-- Floating Close Button -->
+            <button id="btn-go-floating-close" class="absolute top-4 right-4 text-white font-bold text-lg w-9 h-9 rounded-full border border-white/30 flex items-center justify-center bg-white/10 hover:bg-red-600/80 active:scale-95 transition-all z-40 shadow-lg">✕</button>
 
-            <div class="flex flex-col gap-3 w-full max-w-xs my-auto">
-                <div class="bg-black/40 border border-white/10 rounded-2xl p-4 flex flex-col items-center shadow-lg">
-                    <div class="text-xs text-yellow-400 font-bold uppercase tracking-wider mb-2">Arcade Statistics</div>
-                    <div class="text-base font-bold text-white mb-1">Coins Collected: <span id="go-coins-val" class="text-yellow-300">0</span></div>
+            <div class="flex flex-col items-center mt-2">
+                <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-orange-500 glow-text text-center leading-tight">GAME OVER</h1>
+                <div class="text-xs text-white font-bold uppercase tracking-wider mt-1">
+                    Coins Collected: <span id="go-coins-val" class="text-yellow-300">0</span>
                 </div>
             </div>
 
-            <div class="flex flex-col gap-2.5 w-full max-w-xs mb-2">
-                <button id="btn-get-extra-coins" class="btn-coins w-full py-3 rounded-xl font-black text-sm text-black tracking-wider shadow-lg uppercase flex items-center justify-center gap-1.5">🪙 GET EXTRA COINS 🎰</button>
-                <button id="btn-restart-go" class="btn-arcade w-full py-3.5 rounded-xl font-bold text-base text-black tracking-wider shadow-lg uppercase">Play Again</button>
-            </div>
-        </div>
-
-        <!-- LUCKY SPIN WHEEL MODAL -->
-        <div id="screen-spin-modal" class="absolute inset-0 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-6 z-50 hidden">
-            <div class="bg-gray-900 border border-cyan-400/50 rounded-2xl p-5 w-full max-w-xs flex flex-col items-center shadow-2xl glow-box relative">
-                <button id="btn-spin-close" class="absolute top-3 right-3 text-white font-bold text-lg w-8 h-8 rounded-full border border-white/30 flex items-center justify-center bg-white/10">✕</button>
-                <div class="text-yellow-400 font-black text-xl glow-text mb-1 text-center">Lucky Spin Wheel</div>
-                <div class="text-gray-300 text-xs text-center mb-2">Watch Ad to Spin & Win Extra Coins!</div>
+            <!-- Integrated Lucky Spin Wheel Card -->
+            <div class="bg-gray-900/90 border border-cyan-400/50 rounded-2xl p-4 w-full max-w-xs flex flex-col items-center shadow-2xl glow-box my-auto">
+                <div class="text-yellow-400 font-black text-lg glow-text text-center">Lucky Spin Wheel</div>
+                <div class="text-gray-300 text-[11px] text-center mb-1">Watch Ad to Spin & Win Extra Coins!</div>
 
                 <div class="wheel-container">
                     <div class="wheel-pointer"></div>
@@ -343,9 +334,11 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col gap-2 w-full mt-2">
-                    <button id="btn-spin-action" class="btn-ad w-full py-3 rounded-xl font-bold text-black uppercase shadow-lg text-sm">📺 Watch Ad to Spin</button>
-                </div>
+                <button id="btn-spin-action" class="btn-ad w-full py-2.5 rounded-xl font-bold text-black uppercase shadow-lg text-xs mt-1">📺 Watch Ad to Spin</button>
+            </div>
+
+            <div class="flex flex-col gap-2.5 w-full max-w-xs mb-2">
+                <button id="btn-restart-go" class="btn-arcade w-full py-3.5 rounded-xl font-bold text-base text-black tracking-wider shadow-lg uppercase">Play Again</button>
             </div>
         </div>
 
@@ -361,7 +354,7 @@
         <div id="screen-boss-ad-dialog" class="absolute inset-0 bg-black/85 backdrop-blur-md flex flex-col items-center justify-center p-6 z-50 hidden">
             <div class="bg-gray-900 border border-cyan-400/50 rounded-2xl p-6 w-full max-w-xs flex flex-col items-center shadow-2xl glow-box">
                 <div class="text-yellow-400 font-black text-xl glow-text mb-2 text-center">BOSS DEFEATED!</div>
-                <p class="text-gray-300 text-xs text-center mb-4">Watch an AdMob Rewarded Interstitial Ad to claim your extra bonus reward!</p>
+                <p class="text-gray-300 text-xs text-center mb-4">Watch Ad to claim your extra bonus reward!</p>
                 <div class="text-yellow-300 font-black text-lg mb-6">+100 Extra Coins 🪙</div>
                 <div class="flex flex-col gap-3 w-full">
                     <button id="btn-watch-boss-ad" class="btn-ad w-full py-3 rounded-xl font-bold text-black uppercase shadow-lg">📺 Watch Rewarded Interstitial</button>
@@ -1119,7 +1112,6 @@
         document.getElementById('screen-gameover').classList.add('hidden');
         document.getElementById('screen-pause').classList.add('hidden');
         document.getElementById('screen-boss-ad-dialog').classList.add('hidden');
-        document.getElementById('screen-spin-modal').classList.add('hidden');
         document.getElementById('hud').classList.remove('hidden');
         document.getElementById('controls-overlay').classList.remove('hidden');
 
@@ -1688,6 +1680,17 @@
         document.getElementById('combo-hud').style.opacity = '0';
         document.getElementById('screen-boss-ad-dialog').classList.add('hidden');
 
+        // Reset Spin Wheel Button State for Game Over Screen
+        spinChances = 1;
+        const btnSpin = document.getElementById('btn-spin-action');
+        if (spinCountdownTimer) {
+            clearInterval(spinCountdownTimer);
+            spinCountdownTimer = null;
+        }
+        btnSpin.disabled = false;
+        btnSpin.textContent = "📺 Watch Ad to Spin";
+        btnSpin.classList.remove('opacity-50', 'cursor-not-allowed');
+
         updateCoinsUI();
 
         document.getElementById('screen-gameover').classList.remove('hidden');
@@ -2004,25 +2007,11 @@
             startGame();
         });
 
-        document.getElementById('btn-get-extra-coins').addEventListener('click', () => {
-            spinChances = 1;
-            const btnSpin = document.getElementById('btn-spin-action');
+        document.getElementById('btn-go-floating-close').addEventListener('click', () => {
             if (spinCountdownTimer) {
                 clearInterval(spinCountdownTimer);
                 spinCountdownTimer = null;
             }
-            btnSpin.disabled = false;
-            btnSpin.textContent = "📺 Watch Ad to Spin";
-            btnSpin.classList.remove('opacity-50', 'cursor-not-allowed');
-            document.getElementById('screen-spin-modal').classList.remove('hidden');
-        });
-
-        document.getElementById('btn-spin-close').addEventListener('click', () => {
-            if (spinCountdownTimer) {
-                clearInterval(spinCountdownTimer);
-                spinCountdownTimer = null;
-            }
-            document.getElementById('screen-spin-modal').classList.add('hidden');
             quitToDashboard();
         });
 
