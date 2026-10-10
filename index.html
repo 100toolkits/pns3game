@@ -137,15 +137,12 @@
             border-top: 20px solid #ffffff;
             z-index: 10;
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
+        }
 
-        
-
-
-       .scrollable-winners {
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
-}
+        .scrollable-winners {
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
         }
     </style>
 </head>
@@ -221,7 +218,6 @@
             </div>
 
             <div class="flex flex-col gap-2.5 w-full max-w-xs">
-                
                 <button id="btn-play" class="btn-arcade w-full py-3.5 rounded-xl font-bold text-base text-black tracking-wider shadow-lg uppercase">Play Game</button>
                 <button id="btn-jackpot-option" class="btn-jackpot w-full py-3 rounded-xl font-bold text-sm text-white tracking-wider shadow-lg uppercase flex items-center justify-center gap-2">🎁 <span id="dash-jackpot-btn-title">Win Cash Prizes</span></button>
                 <div class="flex gap-2 w-full">
@@ -259,14 +255,14 @@
                 </div>
 
                <!-- Section 2: Previous Friday Winners -->
-<div class="flex flex-col gap-2">
-    <h3 id="jp-winners-section-title" class="text-xs font-bold text-cyan-400 uppercase tracking-wider">
-        Lucky Draw Winners Result
-    </h3>
-    <div id="winners-list-container" class="flex flex-col gap-2 max-h-40 scrollable-winners pr-1">
-        <div class="text-xs text-gray-500 italic text-center py-2">Loading winners...</div>
-    </div>
-</div>
+                <div class="flex flex-col gap-2">
+                    <h3 id="jp-winners-section-title" class="text-xs font-bold text-cyan-400 uppercase tracking-wider">
+                        Lucky Draw Winners Result
+                    </h3>
+                    <div id="winners-list-container" class="flex flex-col gap-2 max-h-40 scrollable-winners pr-1">
+                        <div class="text-xs text-gray-500 italic text-center py-2">Loading winners...</div>
+                    </div>
+                </div>
             </div>
 
             <button id="btn-jackpot-bottom-close" class="w-full py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all mt-4">Close</button>
@@ -334,14 +330,14 @@
                 <div class="wheel-container">
                     <div class="wheel-pointer"></div>
                     <div class="wheel" id="spinWheelInner">
-                        <div class="wheel-text" style="--i:0;" id="slice0">10 🪙</div>
-                        <div class="wheel-text" style="--i:1;" id="slice1">20 🪙</div>
-                        <div class="wheel-text" style="--i:2;" id="slice2">30 🪙</div>
-                        <div class="wheel-text" style="--i:3;" id="slice3">40 🪙</div>
-                        <div class="wheel-text" style="--i:4;" id="slice4">50 🪙</div>
-                        <div class="wheel-text" style="--i:5;" id="slice5">60 🪙</div>
-                        <div class="wheel-text" style="--i:6;" id="slice6">80 🪙</div>
-                        <div class="wheel-text" style="--i:7;" id="slice7">100 🪙</div>
+                        <div class="wheel-text" style="--i:0;" id="slice0">100 🪙</div>
+                        <div class="wheel-text" style="--i:1;" id="slice1">110 🪙</div>
+                        <div class="wheel-text" style="--i:2;" id="slice2">115 🪙</div>
+                        <div class="wheel-text" style="--i:3;" id="slice3">120 🪙</div>
+                        <div class="wheel-text" style="--i:4;" id="slice4">125 🪙</div>
+                        <div class="wheel-text" style="--i:5;" id="slice5">130 🪙</div>
+                        <div class="wheel-text" style="--i:6;" id="slice6">135 🪙</div>
+                        <div class="wheel-text" style="--i:7;" id="slice7">150 🪙</div>
                         <div class="wheel-text" style="--i:8; color: #ffffff;">Try Again ❌</div>
                     </div>
                 </div>
@@ -421,14 +417,14 @@
     let isParticipateLocked = false;
 
     const spinSlices = [
-        { label: "10 🪙", coins: 10 },
-        { label: "20 🪙", coins: 20 },
-        { label: "30 🪙", coins: 30 },
-        { label: "40 🪙", coins: 40 },
-        { label: "50 🪙", coins: 50 },
-        { label: "60 🪙", coins: 60 },
-        { label: "80 🪙", coins: 80 },
         { label: "100 🪙", coins: 100 },
+        { label: "110 🪙", coins: 110 },
+        { label: "115 🪙", coins: 115 },
+        { label: "120 🪙", coins: 120 },
+        { label: "125 🪙", coins: 125 },
+        { label: "130 🪙", coins: 130 },
+        { label: "135 🪙", coins: 135 },
+        { label: "150 🪙", coins: 150 },
         { label: "Try Again ❌", coins: 0 }
     ];
 
@@ -488,7 +484,7 @@
 
     function startSpinButtonCountdown(onCompleteCallback) {
         const btnSpin = document.getElementById('btn-spin-action');
-        let timeLeft = 15;
+        let timeLeft = 40;
         
         btnSpin.disabled = true;
         btnSpin.classList.add('opacity-50', 'cursor-not-allowed');
@@ -559,7 +555,7 @@
         }
     }
 
-    function executeLuckySpin() {
+    function executeLuckySpin(prize) {
         if (isSpinning || spinChances <= 0) return;
         isSpinning = true;
         spinChances--;
@@ -567,9 +563,10 @@
         const btnSpin = document.getElementById('btn-spin-action');
         btnSpin.disabled = true;
 
-        const selectedIndex = Math.floor(Math.random() * spinSlices.length);
+        const selectedIndex = spinSlices.findIndex(s => s.coins === prize.coins && s.label === prize.label);
+        const targetIndex = selectedIndex !== -1 ? selectedIndex : 0;
         const sliceAngle = 40;
-        const targetSliceCenter = selectedIndex * sliceAngle + 20;
+        const targetSliceCenter = targetIndex * sliceAngle + 20;
 
         const extraRounds = (Math.floor(Math.random() * 3) + 5) * 360;
         const finalDegree = currentSpinRotation + extraRounds + (360 - (currentSpinRotation % 360)) + (360 - targetSliceCenter);
@@ -589,7 +586,7 @@
                 btnSpin.disabled = false;
             }
 
-            const prize = spinSlices[selectedIndex];
+            // Award coins directly on successful ad completion & spin result
             if (prize.coins > 0) {
                 totalCoins += prize.coins;
                 sessionCoins += prize.coins;
@@ -2028,8 +2025,13 @@
         });
 
         document.getElementById('btn-spin-action').addEventListener('click', () => {
+            // Determine prize slice before triggering ad
+            const selectedIndex = Math.floor(Math.random() * spinSlices.length);
+            const prize = spinSlices[selectedIndex];
+
             triggerAdmobRewardForSpin(() => {
-                executeLuckySpin();
+                // Execute spin wheel & award coins ONLY upon verified ad view completion
+                executeLuckySpin(prize);
             });
         });
 
