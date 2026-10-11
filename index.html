@@ -214,7 +214,7 @@
             <div class="flex flex-col gap-2.5 w-full max-w-xs">
                 
                 <button id="btn-play" class="btn-arcade w-full py-3.5 rounded-xl font-bold text-base text-black tracking-wider shadow-lg uppercase">Play Game</button>
-                <button id="btn-jackpot-option" class="btn-jackpot w-full py-3 rounded-xl font-bold text-sm text-white tracking-wider shadow-lg uppercase flex items-center justify-center gap-2">🎁 <span id="dash-jackpot-btn-title">Weekly Lucky Draw</span></button>
+                <button id="btn-jackpot-option" class="btn-jackpot w-full py-3 rounded-xl font-bold text-sm text-white tracking-wider shadow-lg uppercase flex items-center justify-center gap-2">🎁 <span id="dash-jackpot-btn-title">Win Cash Prizes</span></button>
                 <div class="flex gap-2 w-full">
                     <button id="btn-instructions" class="flex-1 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all">Instructions</button>
                     <button id="btn-sound" class="flex-1 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl font-semibold text-xs tracking-wider uppercase transition-all text-center">SOUND: ON</button>
@@ -303,24 +303,23 @@
         </div>
 
         <!-- GAME OVER SCREEN -->
-        <div id="screen-gameover" class="absolute inset-0 bg-gradient-to-b from-gray-950 via-purple-950/80 to-black flex flex-col items-center justify-between p-8 z-30 hidden">
-            <div class="flex flex-col items-center mt-4">
-                <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-orange-500 glow-text text-center leading-tight">GAME<br>OVER</h1>
-                <p class="text-gray-400 text-xs mt-2 text-center max-w-xs">Your session has ended.</p>
-            </div>
+<div id="screen-gameover" class="absolute inset-0 bg-gradient-to-b from-gray-950 via-purple-950/80 to-black flex flex-col items-center justify-between p-6 z-30 hidden">
+    <div class="flex flex-col items-center mt-4">
+        <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-orange-500 glow-text text-center leading-tight">GAME<br>OVER</h1>
+        <p class="text-gray-400 text-xs mt-2 text-center max-w-xs">Your session has ended.</p>
+    </div>
 
-            <div class="flex flex-col gap-3 w-full max-w-xs my-auto">
-                <div class="bg-black/40 border border-white/10 rounded-2xl p-4 flex flex-col items-center shadow-lg">
-                    <div class="text-xs text-yellow-400 font-bold uppercase tracking-wider mb-2">Arcade Statistics</div>
-                    <div class="text-base font-bold text-white mb-1">Coins Collected: <span id="go-coins-val" class="text-yellow-300">0</span></div>
-                </div>
-            </div>
+    <!-- Grouped Statistics & Action Buttons -->
+    <div class="flex flex-col gap-2 w-full max-w-xs my-auto">
+        <div class="bg-black/40 border border-white/10 rounded-2xl p-3 flex flex-col items-center shadow-lg">
+            <div class="text-xs text-yellow-400 font-bold uppercase tracking-wider mb-1">Arcade Statistics</div><br>
+            <div class="text-base font-bold text-white">Coins Collected: <span id="go-coins-val" class="text-yellow-300">0</span></div>
+        </div><br><br>
 
-            <div class="flex flex-col gap-2.5 w-full max-w-xs mb-2">
-                <button id="btn-get-extra-coins" class="btn-coins w-full py-3 rounded-xl font-black text-sm text-black tracking-wider shadow-lg uppercase flex items-center justify-center gap-1.5">GET EXTRA COINS</button>
-                <button id="btn-restart-go" class="btn-arcade w-full py-3.5 rounded-xl font-bold text-base text-black tracking-wider shadow-lg uppercase">Play Again</button>
-            </div>
-        </div>
+        <button id="btn-get-extra-coins" class="btn-coins w-full py-3 rounded-xl font-black text-sm text-black tracking-wider shadow-lg uppercase flex items-center justify-center gap-1.5">GET EXTRA COINS</button><br>
+        <button id="btn-restart-go" class="btn-arcade w-full py-3.5 rounded-xl font-bold text-base text-black tracking-wider shadow-lg uppercase">Play Again</button><br>
+    </div>
+</div>
 
         <!-- LUCKY SPIN WHEEL MODAL -->
         <div id="screen-spin-modal" class="absolute inset-0 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-6 z-50 hidden">
