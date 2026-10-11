@@ -197,7 +197,7 @@
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full border border-cyan-400/60 bg-black flex items-center justify-center text-lg">🚀</div>
                     <div class="flex flex-col">
-                        <span id="dash-username" class="text-sm font-bold text-cyan-300">@Player</span>
+                        <span id="dash-username" class="text-sm font-bold text-cyan-300">@Pilot</span>
                         <span class="text-[11px] text-gray-400 font-semibold">NS 3</span>
                     </div>
                 </div>
@@ -212,7 +212,6 @@
             </div>
 
             <div class="flex flex-col gap-2.5 w-full max-w-xs">
-                
                 <button id="btn-play" class="btn-arcade w-full py-3.5 rounded-xl font-bold text-base text-black tracking-wider shadow-lg uppercase">Play Game</button>
                 <button id="btn-jackpot-option" class="btn-jackpot w-full py-3 rounded-xl font-bold text-sm text-white tracking-wider shadow-lg uppercase flex items-center justify-center gap-2">🎁 <span id="dash-jackpot-btn-title">Win Cash Prizes</span></button>
                 <div class="flex gap-2 w-full">
@@ -225,9 +224,11 @@
         <!-- 4. WEEKLY JACKPOT MODAL -->
         <div id="screen-jackpot-modal" class="absolute inset-0 bg-black/90 backdrop-blur-md flex flex-col justify-between p-5 z-40 hidden overflow-y-auto">
             <div class="flex flex-col gap-4">
-                <div class="flex items-center gap-2 border-b border-white/10 pb-3">
-                    <span class="text-2xl">🎁</span>
-                    <h2 id="jp-modal-title" class="text-xl font-bold text-pink-400">Weekly Lucky Draw</h2>
+                <div class="flex flex-col border-b border-white/10 pb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl">🎁</span>
+                        <h2 id="jp-modal-title" class="text-xl font-bold text-pink-400">Weekly Lucky Draw</h2>
+                    </div>
                 </div>
 
                 <!-- Section 1: Friday Jackpot Info -->
@@ -247,6 +248,7 @@
                     <div id="jp-lock-reason" class="text-[11px] font-semibold text-yellow-400 bg-black/40 p-2 rounded-lg border border-yellow-500/20 text-center hidden"></div>
 
                     <button id="btn-participate-now" class="btn-jackpot w-full py-2.5 rounded-xl font-bold text-xs text-white uppercase tracking-wider mt-1">Participate Now</button>
+                    <h3 id="jp-modal-title-2" class="text-x4 font-bold text-pink-400">Next Lucky Draw starting from Saturday: October 16,2026</h3>
                 </div>
 
                 <!-- Section 2: Previous Friday Winners -->
@@ -303,23 +305,23 @@
         </div>
 
         <!-- GAME OVER SCREEN -->
-<div id="screen-gameover" class="absolute inset-0 bg-gradient-to-b from-gray-950 via-purple-950/80 to-black flex flex-col items-center justify-between p-6 z-30 hidden">
-    <div class="flex flex-col items-center mt-4">
-        <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-orange-500 glow-text text-center leading-tight">GAME<br>OVER</h1>
-        <p class="text-gray-400 text-xs mt-2 text-center max-w-xs">Your session has ended.</p>
-    </div>
+        <div id="screen-gameover" class="absolute inset-0 bg-gradient-to-b from-gray-950 via-purple-950/80 to-black flex flex-col items-center justify-between p-6 z-30 hidden">
+            <div class="flex flex-col items-center mt-4">
+                <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-orange-500 glow-text text-center leading-tight">GAME<br>OVER</h1>
+                <p class="text-gray-400 text-xs mt-2 text-center max-w-xs">Your session has ended.</p>
+            </div>
 
-    <!-- Grouped Statistics & Action Buttons -->
-    <div class="flex flex-col gap-2 w-full max-w-xs my-auto">
-        <div class="bg-black/40 border border-white/10 rounded-2xl p-3 flex flex-col items-center shadow-lg">
-            <div class="text-xs text-yellow-400 font-bold uppercase tracking-wider mb-1">Arcade Statistics</div><br>
-            <div class="text-base font-bold text-white">Coins Collected: <span id="go-coins-val" class="text-yellow-300">0</span></div>
-        </div><br><br>
+            <!-- Grouped Statistics & Action Buttons -->
+            <div class="flex flex-col gap-2 w-full max-w-xs my-auto">
+                <div class="bg-black/40 border border-white/10 rounded-2xl p-3 flex flex-col items-center shadow-lg">
+                    <div class="text-xs text-yellow-400 font-bold uppercase tracking-wider mb-1">Arcade Statistics</div><br>
+                    <div class="text-base font-bold text-white">Coins Collected: <span id="go-coins-val" class="text-yellow-300">0</span></div>
+                </div><br><br>
 
-        <button id="btn-get-extra-coins" class="btn-coins w-full py-3 rounded-xl font-black text-sm text-black tracking-wider shadow-lg uppercase flex items-center justify-center gap-1.5">GET EXTRA COINS</button><br>
-        <button id="btn-restart-go" class="btn-arcade w-full py-3.5 rounded-xl font-bold text-base text-black tracking-wider shadow-lg uppercase">Play Again</button><br>
-    </div>
-</div>
+                <button id="btn-get-extra-coins" class="btn-coins w-full py-3 rounded-xl font-black text-sm text-black tracking-wider shadow-lg uppercase flex items-center justify-center gap-1.5">GET EXTRA COINS</button><br>
+                <button id="btn-restart-go" class="btn-arcade w-full py-3.5 rounded-xl font-bold text-base text-black tracking-wider shadow-lg uppercase">Play Again</button><br>
+            </div>
+        </div>
 
         <!-- LUCKY SPIN WHEEL MODAL -->
         <div id="screen-spin-modal" class="absolute inset-0 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-6 z-50 hidden">
@@ -375,7 +377,7 @@
 
 <script>
     // --- GOOGLE APPS SCRIPT WEB APP CONFIGURATION ---
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbysvrMXefAYWSDl3WtI4fZnPQ3N2hLr5reHm-p-1T8vsLJYDVYCPVlnte7hyjCGL5dMYg/exec";
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUoc1UeHV_w_8wqLWeFymrK42n-ajvt8_UGaCOPDA2XTMfs80bh8MFC9PyFI9MvfX_/exec";
 
     // --- IMAGE ASSETS CONFIGURATION ---
     const playerImg = new Image();
@@ -395,8 +397,9 @@
     let spinChances = 2;
     let spinCountdownTimer = null;
 
-    let jackpotTitle = "Friday Lucky Draw";
-    let winnerResultTitle = "Previous Friday 3 Winners Result";
+    let jackpotTitle = "Weekly Lucky Draw";
+    let nextLuckyDrawTitle = "Next Lucky Draw";
+    let winnerResultTitle = "Lucky Draw Winners Result";
     let jackpotPrizeAmount = "Loading Prizes...";
     let jackpotParticipatingFee = 0;
     let isParticipateLocked = false;
@@ -491,7 +494,6 @@
             return;
         }
 
-        // Show Rewarded Interstitial Ad immediately
         if (window.AndroidBridge && typeof window.AndroidBridge.showRewardedInterstitialAd === 'function') {
             window.AndroidBridge.showRewardedInterstitialAd();
         } else if (window.AndroidBridge && typeof window.AndroidBridge.watchRewardedVideoForChances === 'function') {
@@ -500,7 +502,6 @@
             window.AndroidBridge.showRewardedAd();
         }
 
-        // Start 15s timer immediately; wheel spin triggers after countdown completion
         startSpinButtonCountdown(() => {
             if (callback) {
                 callback();
@@ -904,6 +905,12 @@
                     jackpotTitle = data.jackpotTitle;
                     document.getElementById('jp-modal-title').textContent = data.jackpotTitle;
                 }
+
+                if (data.nextLuckyDrawTitle) {
+                    nextLuckyDrawTitle = data.nextLuckyDrawTitle;
+                    document.getElementById('jp-modal-title-2').textContent = data.nextLuckyDrawTitle;
+                }
+                
                 if (data.winnerResultTitle) {
                     winnerResultTitle = data.winnerResultTitle;
                     document.getElementById('jp-winners-section-title').textContent = data.winnerResultTitle;
@@ -1417,8 +1424,6 @@
                         spawnPowerup(boss.x, boss.y);
                         spawnCoin(boss.x, boss.y, 10);
                         
-                        const defeatedBossX = boss.x;
-                        const defeatedBossY = boss.y;
                         boss = null;
                         document.getElementById('boss-hud').classList.add('hidden');
 
