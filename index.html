@@ -394,7 +394,7 @@
     let pendingAdCallback = null;
     let isSpinning = false;
     let currentSpinRotation = 0;
-    let spinChances = 2;
+    let spinChances = 1;
     let spinCountdownTimer = null;
     let hasSpunWheel = false;
 
@@ -1958,7 +1958,7 @@
         });
 
         document.getElementById('btn-get-extra-coins').addEventListener('click', () => {
-            spinChances = 2;
+            spinChances = 1;
             hasSpunWheel = false;
             const btnSpin = document.getElementById('btn-spin-action');
             if (spinCountdownTimer) {
