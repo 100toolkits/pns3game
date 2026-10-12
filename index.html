@@ -253,7 +253,7 @@
 
                 <!-- Section 2: Previous Friday Winners -->
                 <div class="flex flex-col gap-2">
-                    <h3 id="jp-winners-section-title" class="text-xs font-bold text-cyan-400 normal-case tracking-wider">Lucky Draw Winners Result</h3>
+                    <h2 id="jp-winners-section-title" class="text-xs font-bold text-cyan-400 normal-case tracking-wider">Lucky Draw Winners Result</h2>
                     <div id="winners-list-container" class="flex flex-col gap-2 max-h-48 overflow-y-auto pr-1">
                         <div class="text-xs text-gray-500 italic text-center py-2">Loading winners...</div>
                     </div>
@@ -396,6 +396,7 @@
     let currentSpinRotation = 0;
     let spinChances = 2;
     let spinCountdownTimer = null;
+    let hasSpunWheel = false;
 
     let jackpotTitle = "Weekly Lucky Draw";
     let nextLuckyDrawTitle = "Next Lucky Draw";
@@ -526,6 +527,7 @@
     function executeLuckySpin() {
         if (isSpinning || spinChances <= 0) return;
         isSpinning = true;
+        hasSpunWheel = true;
         spinChances--;
 
         const btnSpin = document.getElementById('btn-spin-action');
@@ -1957,6 +1959,7 @@
 
         document.getElementById('btn-get-extra-coins').addEventListener('click', () => {
             spinChances = 2;
+            hasSpunWheel = false;
             const btnSpin = document.getElementById('btn-spin-action');
             if (spinCountdownTimer) {
                 clearInterval(spinCountdownTimer);
@@ -1974,7 +1977,12 @@
                 spinCountdownTimer = null;
             }
             document.getElementById('screen-spin-modal').classList.add('hidden');
-            quitToDashboard();
+            
+            if (hasSpunWheel) {
+                quitToDashboard();
+            } else {
+                document.getElementById('screen-gameover').classList.remove('hidden');
+            }
         });
 
         document.getElementById('btn-spin-action').addEventListener('click', () => {
